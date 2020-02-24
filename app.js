@@ -1,147 +1,146 @@
-const celeste = document.getElementById("celeste");
-const violeta = document.getElementById("violeta");
-const naranja = document.getElementById("naranja");
-const verde = document.getElementById("verde");
-const btnEmpezar = document.getElementById("btnEmpezar");
+const blue = document.getElementById('blue');
+const purple = document.getElementById('purple');
+const orange = document.getElementById('orange');
+const green = document.getElementById('green');
+const btnBegin = document.getElementById('btnBegin');
 
-const ULTIMO_NIVEL = 5;
+const LAST_LEVEL = 5;
 
-class Juego {
+class Game {
   constructor() {
-    this.inicializar = this.inicializar.bind(this);
-    this.inicializar();
-    this.generarSecuencia();
-    setTimeout(this.siguienteNivel, 500);
-    // this.siguienteNivel()
+    this.initialize = this.initialize.bind(this);
+    this.initialize();
+    this.generateColors();
+    setTimeout(this.nextLevel, 500);
+    // this.nextLevel()
   }
 
-  inicializar() {
-    this.siguienteNivel = this.siguienteNivel.bind(this);
-    this.elegirColor = this.elegirColor.bind(this);
-    // hay que enlazar el this, porque con el eventListener perdemos el contexto de this(la referencia al juego)
-    this.toggleBtnEmpezar();
+  initialize() {
+    this.nextLevel = this.nextLevel.bind(this);
+    this.chooseColor = this.chooseColor.bind(this);
+    // hay que enlazar el this, porque con el eventListener perdemos el contexto de this(la referencia al game)
+    // we have to bind this, we need the context because with the eventListener we lose it
+    this.toggleBtnBegin();
     this.nivel = 1;
-    this.colores = {
-      celeste,
-      violeta,
-      naranja,
-      verde
+    this.colors = {
+      blue,
+      purple,
+      orange,
+      green
     };
   }
 
-  toggleBtnEmpezar() {
-    if (btnEmpezar.classList.contains("hide")) {
-      btnEmpezar.classList.remove("hide");
+  toggleBtnBegin() {
+    if (btnBegin.classList.contains('hide')) {
+      btnBegin.classList.remove('hide');
     } else {
-      btnEmpezar.classList.add("hide");
+      btnBegin.classList.add('hide');
     }
   }
 
-  generarSecuencia() {
-    this.secuencia = new Array(ULTIMO_NIVEL)
-      .fill(0)
-      .map(n => Math.floor(Math.random() * 4));
+  generateColors() {
+    this.sequence = new Array(LAST_LEVEL).fill(0).map(n => Math.floor(Math.random() * 4));
   }
 
-  siguienteNivel() {
-    this.subnivel = 0;
-    this.iluminarSecuencia();
-    this.agregarEventosClick();
+  nextLevel() {
+    this.subLevel = 0;
+    this.iluminateSequence();
+    this.addClickEvents();
   }
 
-  transformarNumeroAColor(num) {
+  changeNumberToColor(num) {
     switch (num) {
       case 0:
-        return "celeste";
+        return 'blue';
       case 1:
-        return "naranja";
+        return 'orange';
       case 2:
-        return "violeta";
+        return 'purple';
       case 3:
-        return "verde";
+        return 'green';
     }
   }
 
-  transformarColorANumero(color) {
+  changeColorToNumber(color) {
     switch (color) {
-      case "celeste":
+      case 'blue':
         return 0;
-      case "naranja":
+      case 'orange':
         return 1;
-      case "violeta":
+      case 'purple':
         return 2;
-      case "verde":
+      case 'green':
         return 3;
     }
   }
 
-  iluminarSecuencia() {
+  iluminateSequence() {
     for (let i = 0; i < this.nivel; i++) {
-      const color = this.transformarNumeroAColor(this.secuencia[i]);
+      const color = this.changeNumberToColor(this.sequence[i]);
       console.log(color);
-      setTimeout(() => this.iluminarColor(color), 1000 * i);
+      setTimeout(() => this.iluminateColor(color), 1000 * i);
     }
-    console.log("- - - - - - - - - ")
+    console.log('- - - - - - - - - ');
   }
 
-  iluminarColor(color) {
-    this.colores[color].classList.add("light");
+  iluminateColor(color) {
+    this.colors[color].classList.add('light');
     setTimeout(() => this.apagarColor(color), 350);
   }
 
   apagarColor(color) {
-    this.colores[color].classList.remove("light");
+    this.colors[color].classList.remove('light');
   }
 
-  agregarEventosClick() {
-    this.colores.celeste.addEventListener("click", this.elegirColor);
-    this.colores.violeta.addEventListener("click", this.elegirColor);
-    this.colores.naranja.addEventListener("click", this.elegirColor);
-    this.colores.verde.addEventListener("click", this.elegirColor);
+  addClickEvents() {
+    this.colors.blue.addEventListener('click', this.chooseColor);
+    this.colors.purple.addEventListener('click', this.chooseColor);
+    this.colors.orange.addEventListener('click', this.chooseColor);
+    this.colors.green.addEventListener('click', this.chooseColor);
   }
 
-  eliminarEventosClick() {
-    this.colores.celeste.removeEventListener("click", this.elegirColor);
-    this.colores.violeta.removeEventListener("click", this.elegirColor);
-    this.colores.naranja.removeEventListener("click", this.elegirColor);
-    this.colores.verde.removeEventListener("click", this.elegirColor);
+  deleteClicksEvents() {
+    this.colors.blue.removeEventListener('click', this.chooseColor);
+    this.colors.purple.removeEventListener('click', this.chooseColor);
+    this.colors.orange.removeEventListener('click', this.chooseColor);
+    this.colors.green.removeEventListener('click', this.chooseColor);
   }
 
-  elegirColor(ev) {
-    const nombreColor = ev.target.dataset.color;
-    const numeroColor = this.transformarColorANumero(nombreColor);
-    this.iluminarColor(nombreColor);
-    if (numeroColor === this.secuencia[this.subnivel]) {
-      this.subnivel++;
-      if (this.subnivel === this.nivel) {
+  chooseColor(ev) {
+    const colorName = ev.target.dataset.color;
+    const colorNumber = this.changeColorToNumber(colorName);
+    this.iluminateColor(colorName);
+    if (colorNumber === this.sequence[this.subLevel]) {
+      this.subLevel++;
+      if (this.subLevel === this.nivel) {
         this.nivel++;
-        this.eliminarEventosClick();
-        if (this.nivel === ULTIMO_NIVEL + 1) {
-          // Ganó !
-          this.ganoElJuego();
+        this.deleteClicksEvents();
+        if (this.nivel === LAST_LEVEL + 1) {
+          // Won !
+          this.wonTheGame();
         } else {
-          console.clear()
-          setTimeout(this.siguienteNivel, 1500);
+          console.clear();
+          setTimeout(this.nextLevel, 1500);
         }
       }
     } else {
       // Perdió
-      this.perdioElJuego();
+      this.loseTheGame();
     }
   }
 
-  ganoElJuego() {
-    swal("Enhorabuena!", "Ganaste el juego!", "success").then(this.inicializar);
+  wonTheGame() {
+    swal('Congratulations!', 'You Won!', 'success').then(this.initialize);
   }
 
-  perdioElJuego() {
-    swal("Has perdido..", "Upps!, Fallaste 😰", "error").then(() => {
-      this.eliminarEventosClick();
-      this.inicializar();
+  loseTheGame() {
+    swal('You loose..', 'Upps!, Wrong color 😰', 'error').then(() => {
+      this.deleteClicksEvents();
+      this.initialize();
     });
   }
 }
 
-function empezarJuego() {
-  window.juego = new Juego();
+function beginGame() {
+  window.game = new Game();
 }

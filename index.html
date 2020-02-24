@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Juego con HTML</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="gameboard">
-    <div id="celeste" class="color celeste left" data-color="celeste"></div>
-    <div id="violeta" class="color violeta right" data-color="violeta"></div>
-    <div id="naranja" class="color naranja left" data-color="naranja"></div>
-    <div id="verde" class="color verde right" data-color="verde"></div>
-    <button class="btn-start" id="btnEmpezar" onclick="empezarJuego()">Empezar a jugar</button>
-  </div>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <script src="app.js"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Juego con HTML</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="gameboard">
+      <div id="blue" class="color celeste left" data-color="blue"></div>
+      <div id="purple" class="color violeta right" data-color="purple"></div>
+      <div id="orange" class="color naranja left" data-color="orange"></div>
+      <div id="green" class="color verde right" data-color="green"></div>
+      <button class="btn-start" id="btnBegin" onclick="beginGame()">Play!</button>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
